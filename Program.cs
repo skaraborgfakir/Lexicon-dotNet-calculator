@@ -1,7 +1,7 @@
 ﻿using System;
 
 //
-// RPN räknar i Cshar
+// RPN bordsräknare i Csharp
 //
 // stora tal ?? dvs BCD ? med fixed ?
 //
@@ -12,7 +12,27 @@ namespace calculator
     {
 	static void Main(string[] args)
 	{
+	    string[,] alternativ = new string[8,2]
+	    {
+		{ "P", "Mata in"},
+
+		{ "+", "Addition" },
+		{ "-", "Subtraktion" },
+		{ "*", "Multiplikation" },
+		{ "/", "Division" },
+
+		{ "L", "Läs från stack" },
+		{ "T", "Töm stacken" },
+		{ "X", "Avsluta" },
+	    };
 	    Console.WriteLine("Hello World!");
+
+	    for(int i=0;i<8;i++){
+		if(i=7) {
+		    Console.WriteLine("");
+		}
+		Console.WriteLine( alternativ[i,0]+ "   " + alternativ[i,1]);
+	    }
 	}
     }
 }
