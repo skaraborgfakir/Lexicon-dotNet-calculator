@@ -1,2 +1,3 @@
-# Lexicon-dotNet-calculator
-Inlämningsuppgift i dotNet mot Lexicon
+Inlämningsuppgift i dotNet
+
+En enkel menybaserad bordsräknare
