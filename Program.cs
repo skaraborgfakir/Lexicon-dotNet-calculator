@@ -6,7 +6,7 @@
 // stora tal ?? dvs BCD ? med fixed ?
 //
 
-namespace calculator
+namespace bordsräknare
 {
     class Program
     {
