@@ -28,11 +28,16 @@ namespace calculator
 	    Console.WriteLine("Hello World!");
 
 	    for(int i=0;i<8;i++){
-		if(i=7) {
+		if(i==7) {
 		    Console.WriteLine("");
 		}
 		Console.WriteLine( alternativ[i,0]+ "   " + alternativ[i,1]);
 	    }
+
+	    // foreach(String i in alternativ)
+	    // {
+	    //	Console.WriteLine("{0}", i);
+	    // }
 	}
     }
 }
