@@ -1,9 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 //
 // RPN bordsräknare i Csharp
 //
 // stora tal ?? dvs BCD ? med fixed ?
+//
+// exempel:
+//   2+3x4 :                  3P 4* 2+
+//   (2+3)/4:                 2P 3+ 4/
+//   kvadratrot( 2^2 + 3^2):  2kvadrat2 3kvadrat2 + kvadratrot
+//   kvadratrot( 2^2 + 3^4):  2kvadrat2 3P 4kvadratX + kvadratrot
+//
+// X = alias för pos 0 i stacken   X alltid synlig
+// Y =  -*-          1
+// Z = -*-           2
+// T = -*-           3
 //
 
 namespace bordsräknare
@@ -12,32 +25,277 @@ namespace bordsräknare
     {
 	static void Main(string[] args)
 	{
-	    string[,] alternativ = new string[8,2]
+	    bool       notDone=true;
+	    Stack<double> talStack = new Stack<double>(); // oändligt stor stack men egentligen är
+							    // 4 som maximalt djup tillräcklig
+	    while ( notDone )
 	    {
-		{ "P", "Mata in"},
-
-		{ "+", "Addition" },
-		{ "-", "Subtraktion" },
-		{ "*", "Multiplikation" },
-		{ "/", "Division" },
-
-		{ "L", "Läs från stack" },
-		{ "T", "Töm stacken" },
-		{ "X", "Avsluta" },
-	    };
-	    Console.WriteLine("Hello World!");
-
-	    for(int i=0;i<8;i++){
-		if(i==7) {
-		    Console.WriteLine("");
+		string kommand=Meny(talStack);
+		switch( kommand )
+		{
+		    case "P":
+		    case "p":
+			Push(talStack);
+			break;
+		    case "+":
+			Addition(talStack);
+			break;
+		    case "-":
+			Subtraktion(talStack);
+			break;
+		    case "*":
+			Multiplikation(talStack);
+			break;
+		    case "/":
+			Division(talStack);
+			break;
+		    case "2":
+			kvadreratill2(talStack);
+			break;
+		    case "X":
+			kvadreratillX(talStack);
+			break;
+		    case "R":
+			kvadratrot(talStack);
+			break;
+		    // case "L":
+		    // case "l":
+		    //	Pop(talStack);
+		    //	break;
+		    case "C":
+		    case "c":
+			Console.WriteLine( "Rensa stacken (cancel)");
+			talStack.Clear();
+			break;
+		    case "A":
+		    case "a":
+			Console.WriteLine( "Avslutar");
+			notDone = false;
+			break;
+		    default:
+			break;
 		}
-		Console.WriteLine( alternativ[i,0]+ "   " + alternativ[i,1]);
+	    }
+	}
+
+	static double läsEttTal()
+	{
+	    bool okTal=false;
+	    double tal=0;
+	    NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+	    CultureInfo provider = new CultureInfo("sv-SE");
+
+	    Console.WriteLine( "mata in ett tal (decimalt): ");
+	    while( !okTal )
+	    {
+		string str=Console.ReadLine();
+		try
+		{
+		    tal=double.Parse(str, style, provider);
+		    okTal=true;
+		}
+		catch (FormatException e)
+		{
+		    Console.WriteLine(e.Message + " ej ett tal ?");
+		}
+	    }
+	    return tal;
+	}
+
+	static double läsEttTal(string message)
+	{
+	    bool okTal=false;
+	    double tal=0;
+	    NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+	    CultureInfo provider = new CultureInfo("fr-FR");
+
+	    Console.WriteLine( message + ": mata in ett tal (decimalt): ");
+	    while( !okTal )
+	    {
+		string str=Console.ReadLine();
+		try
+		{
+		    tal=double.Parse(str, style, provider);
+		    okTal=true;
+		}
+		catch (FormatException e)
+		{
+		    Console.WriteLine(e.Message + " ej ett tal ?");
+		}
+	    }
+	    return tal;
+	}
+
+	static void Push( Stack<double> talStack )
+	{
+	    talStack.Push(läsEttTal());
+	}
+
+	// static void Pop( Stack<decimal> talStack)
+	// {
+	//     Console.WriteLine( "läs");
+	//     try
+	//     {
+	//	decimal tal = talStack.Pop();
+	//	Console.WriteLine(tal);
+	//     }
+	//     catch (InvalidOperationException e)
+	//     {
+	//	Console.WriteLine( e.Message + " tom Stack!");
+	//     }
+	// }
+
+	static void Addition( Stack<double> talStack)
+	{
+	    // Console.WriteLine( "addition: mata in en term (heltal) att addera med: ");
+	    double term1=läsEttTal( "addition" );
+	    double term2=0;
+	    try
+	    {
+		term2=talStack.Pop();
+	    }
+	    catch (InvalidOperationException)
+	    {
+		term2 = 0;
+	    }
+	    double summa=term1+term2;
+	    talStack.Push(summa);
+	}
+
+	static void Subtraktion(Stack<double> talStack)
+	{
+	    // Console.WriteLine( "subtraktion: mata in en term (heltal): ");
+	    double term1=läsEttTal( "subtraktion");
+	    double term2=0;
+	    try
+	    {
+		term2=talStack.Pop();
+	    }
+	    catch (InvalidOperationException)
+	    {
+	    }
+	    double summa=term2-term1;
+	    talStack.Push(summa);
+	}
+
+	static void Multiplikation(Stack<double> talStack)
+	{
+	    // Console.WriteLine( "Multiplikation");
+	    double faktor1=läsEttTal( "multiplikation: mata in den ena faktorn");
+	    double faktor2=0;
+	    try
+	    {
+		faktor2=talStack.Pop();
+	    }
+	    catch (InvalidOperationException)
+	    {
+	    }
+	    double produkt=faktor1*faktor2;
+
+	    talStack.Push(produkt);
+	}
+
+	static void Division(Stack<double> talStack)
+	{
+	    double täljare=0;
+	    try
+	    {
+		täljare=talStack.Pop();
+	    }
+	    catch (InvalidOperationException)
+	    {
+	    }
+	    double nämnare=0;
+
+	    while (nämnare==0)
+	    {
+		nämnare=läsEttTal( "division: mata in nämnare");
+		if (nämnare==0) {
+		    Console.WriteLine("nämnare kan inte vara 0.");
+		}
 	    }
 
-	    // foreach(String i in alternativ)
-	    // {
-	    //	Console.WriteLine("{0}", i);
-	    // }
+	    double kvot=täljare/nämnare;
+
+	    talStack.Push(kvot);
+	}
+
+	static void kvadreratill2(Stack<double> talStack)
+	{
+	    double bas=läsEttTal( "exponent till två: mata in bas");
+	    double resultat = Math.Pow( bas, 2);
+
+	    talStack.Push(resultat);
+	}
+
+	static void kvadreratillX(Stack<double> talStack)
+	{
+	    double bas=0;
+	    double exponent=läsEttTal( "exponent till valfritt tal: mata in exponent");
+	    try
+	    {
+		double bas = talStack.Pop();
+	    }
+	    catch(InvalidOperationException)
+	    {
+	    }
+
+	    double resultat=Math.Pow( bas, exponent);
+	    talStack.Push(resultat);
+	}
+	static void kvadratrot(Stack<double> talStack)
+	{
+	    double tal=läsEttTal( "kvadratrot: mata in talet");
+
+	    double rot=Math.Sqrt(tal);
+
+	    talStack.Push(rot);
+	}
+
+	static string Meny(Stack<double> talStack)
+	{
+	    string[,] alternativ = new string[10,3]
+	    {
+		{ "P", "Mata in (x->y)",     "p" },
+		{ "+", "Addition (x=x+y)",   "" },
+		{ "-", "Subtraktion (x=y-x", "" },
+		{ "*", "Multiplikation (x=y/x)", "" },
+		{ "/", "Division (x=y/x)",   "" },
+		{ "X", "Exponent (x=y^x)",   "" },
+		{ "2", "2:Exponent (x=x^2)", "" },
+		{ "R", "Kvadratrot (x=Vx)",  "" },
+		{ "C", "Töm stacken (nollställ)", "c" },
+		{ "A", "Avsluta", "a" },
+	    };
+	    //bool kanskeLegalt=;
+	    string kommand="X";
+	    bool ok_kommand=false;
+	    while ( !ok_kommand ) {
+		for (int i=0;  i < alternativ.GetLength(0); i++){
+		    if (i==alternativ.GetLength(0)-1) { // beroende på att X (avsluta) är sist i uppräkningen !
+			Console.WriteLine("");
+		    }
+		    Console.WriteLine( alternativ[i,0] + " " + alternativ[i,1] );
+		}
+		try   // Innan allra första operationen är stack tom - hantera
+		{
+		    Console.Write( "X: " + talStack.Peek() + "  ");
+		}
+		catch(InvalidOperationException)
+		{
+		    Console.Write( "X: " + 0.0 + "  ");
+		}
+		kommand=Console.ReadLine();
+		foreach (string alt in alternativ) {
+		    if ( alt!="" && alt==kommand ) {
+			ok_kommand=true;
+		    }
+		}
+		if ( !ok_kommand ) {
+		    Console.WriteLine("fel val, försök igen");
+		}
+	    }
+	    return kommand;
 	}
     }
 }
