@@ -8,10 +8,10 @@ using System.Globalization;
 // stora tal ?? dvs BCD ? med fixed ?
 //
 // exempel:
-//   2+3x4 :                  3P 4* 2+
-//   (2+3)/4:                 2P 3+ 4/
-//   kvadratrot( 2^2 + 3^2):  2kvadrat2 3kvadrat2 + kvadratrot
-//   kvadratrot( 2^2 + 3^4):  2kvadrat2 3P 4kvadratX + kvadratrot
+//   2+3x4 :                  P3 *4 +2
+//   (2+3)/4:                 P2 +3 /4
+//   kvadratrot( 2^2 + 3^2):  kvadrat2 2 kvadrat2 3 + kvadratrot
+//   kvadratrot( 2^2 + 3^4):  kvadrat2 2 P 3 kvadratX 4 + kvadratrot
 //
 // X = alias för pos 0 i stacken   X alltid synlig
 // Y =  -*-          1
@@ -53,9 +53,11 @@ namespace bordsräknare
 			kvadreratill2(talStack);
 			break;
 		    case "X":
+		    case "x":
 			kvadreratillX(talStack);
 			break;
 		    case "R":
+		    case "r":
 			kvadratrot(talStack);
 			break;
 		    // case "L":
@@ -82,7 +84,7 @@ namespace bordsräknare
 	{
 	    bool okTal=false;
 	    double tal=0;
-	    NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+	    NumberStyles style = NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowThousands;
 	    CultureInfo provider = new CultureInfo("sv-SE");
 
 	    Console.WriteLine( "mata in ett tal (decimalt): ");
@@ -106,7 +108,7 @@ namespace bordsräknare
 	{
 	    bool okTal=false;
 	    double tal=0;
-	    NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+	    NumberStyles style = NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowThousands;
 	    CultureInfo provider = new CultureInfo("fr-FR");
 
 	    Console.WriteLine( message + ": mata in ett tal (decimalt): ");
@@ -128,70 +130,51 @@ namespace bordsräknare
 
 	static void Push( Stack<double> talStack )
 	{
-	    talStack.Push(läsEttTal());
+	    talStack.Push(läsEttTal( "inmatning i stack"));
 	}
-
-	// static void Pop( Stack<decimal> talStack)
-	// {
-	//     Console.WriteLine( "läs");
-	//     try
-	//     {
-	//	decimal tal = talStack.Pop();
-	//	Console.WriteLine(tal);
-	//     }
-	//     catch (InvalidOperationException e)
-	//     {
-	//	Console.WriteLine( e.Message + " tom Stack!");
-	//     }
-	// }
 
 	static void Addition( Stack<double> talStack)
 	{
-	    // Console.WriteLine( "addition: mata in en term (heltal) att addera med: ");
-	    double term1=läsEttTal( "addition" );
-	    double term2=0;
+	    double term1=0;
 	    try
 	    {
-		term2=talStack.Pop();
+		term1=talStack.Pop();
 	    }
 	    catch (InvalidOperationException)
 	    {
-		term2 = 0;
 	    }
+	    double term2=läsEttTal( "addition" );
 	    double summa=term1+term2;
 	    talStack.Push(summa);
 	}
 
 	static void Subtraktion(Stack<double> talStack)
 	{
-	    // Console.WriteLine( "subtraktion: mata in en term (heltal): ");
-	    double term1=läsEttTal( "subtraktion");
-	    double term2=0;
+	    double term1=0;
 	    try
 	    {
-		term2=talStack.Pop();
+		term1=talStack.Pop();
 	    }
 	    catch (InvalidOperationException)
 	    {
 	    }
-	    double summa=term2-term1;
+	    double term2=läsEttTal( "subtraktion");
+	    double summa=term1-term2;
 	    talStack.Push(summa);
 	}
 
 	static void Multiplikation(Stack<double> talStack)
 	{
-	    // Console.WriteLine( "Multiplikation");
-	    double faktor1=läsEttTal( "multiplikation: mata in den ena faktorn");
-	    double faktor2=0;
+	    double faktor1=0;
 	    try
 	    {
-		faktor2=talStack.Pop();
+		faktor1=talStack.Pop();
 	    }
 	    catch (InvalidOperationException)
 	    {
 	    }
+	    double faktor2=läsEttTal( "multiplikation: mata in den ena faktorn");
 	    double produkt=faktor1*faktor2;
-
 	    talStack.Push(produkt);
 	}
 
@@ -205,8 +188,8 @@ namespace bordsräknare
 	    catch (InvalidOperationException)
 	    {
 	    }
-	    double nämnare=0;
 
+	    double nämnare=0;
 	    while (nämnare==0)
 	    {
 		nämnare=läsEttTal( "division: mata in nämnare");
@@ -216,13 +199,12 @@ namespace bordsräknare
 	    }
 
 	    double kvot=täljare/nämnare;
-
 	    talStack.Push(kvot);
 	}
 
 	static void kvadreratill2(Stack<double> talStack)
 	{
-	    double bas=läsEttTal( "exponent till två: mata in bas");
+	    double bas=talStack.Pop();
 	    double resultat = Math.Pow( bas, 2);
 
 	    talStack.Push(resultat);
@@ -231,24 +213,21 @@ namespace bordsräknare
 	static void kvadreratillX(Stack<double> talStack)
 	{
 	    double bas=0;
-	    double exponent=läsEttTal( "exponent till valfritt tal: mata in exponent");
 	    try
 	    {
-		double bas = talStack.Pop();
+		bas = talStack.Pop();
 	    }
 	    catch(InvalidOperationException)
 	    {
 	    }
-
+	    double exponent=läsEttTal( "exponent till valfritt tal: mata in exponent");
 	    double resultat=Math.Pow( bas, exponent);
 	    talStack.Push(resultat);
 	}
 	static void kvadratrot(Stack<double> talStack)
 	{
-	    double tal=läsEttTal( "kvadratrot: mata in talet");
-
+	    double tal=talStack.Pop();
 	    double rot=Math.Sqrt(tal);
-
 	    talStack.Push(rot);
 	}
 
@@ -261,9 +240,9 @@ namespace bordsräknare
 		{ "-", "Subtraktion (x=y-x", "" },
 		{ "*", "Multiplikation (x=y/x)", "" },
 		{ "/", "Division (x=y/x)",   "" },
-		{ "X", "Exponent (x=y^x)",   "" },
+		{ "X", "Exponent (x=y^x)",   "x" },
+		{ "R", "Kvadratrot (x=Vx)",  "r" },
 		{ "2", "2:Exponent (x=x^2)", "" },
-		{ "R", "Kvadratrot (x=Vx)",  "" },
 		{ "C", "Töm stacken (nollställ)", "c" },
 		{ "A", "Avsluta", "a" },
 	    };
