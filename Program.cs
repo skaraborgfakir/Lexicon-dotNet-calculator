@@ -26,8 +26,7 @@ namespace bordsräknare
 	static void Main(string[] args)
 	{
 	    bool       notDone=true;
-	    Stack<double> talStack = new Stack<double>(); // oändligt stor stack men egentligen är
-							    // 4 som maximalt djup tillräcklig
+	    Stack<double> talStack = new Stack<double>(); // oändligt stor stack men egentligen är 4 som maximalt djup tillräcklig
 	    while ( notDone )
 	    {
 		string kommand=Meny(talStack);
@@ -90,10 +89,10 @@ namespace bordsräknare
 	    Console.WriteLine( "mata in ett tal (decimalt): ");
 	    while( !okTal )
 	    {
-		string str=Console.ReadLine();
+		// string str=Console.ReadLine();
 		try
 		{
-		    tal=double.Parse(str, style, provider);
+		    tal=double.Parse(Console.ReadLine(), style, provider);
 		    okTal=true;
 		}
 		catch (FormatException e)
@@ -107,17 +106,17 @@ namespace bordsräknare
 	static double läsEttTal(string message)
 	{
 	    bool okTal=false;
-	    double tal=0;
+	    double tal;
 	    NumberStyles style = NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowThousands;
 	    CultureInfo provider = new CultureInfo("fr-FR");
 
 	    Console.WriteLine( message + ": mata in ett tal (decimalt): ");
 	    while( !okTal )
 	    {
-		string str=Console.ReadLine();
+		// string str=Console.ReadLine();
 		try
 		{
-		    tal=double.Parse(str, style, provider);
+		    tal=double.Parse(Console.ReadLine(), style, provider);
 		    okTal=true;
 		}
 		catch (FormatException e)
