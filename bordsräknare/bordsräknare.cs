@@ -81,7 +81,7 @@ namespace bordsräknare
 	static double läsEttTal()
 	{
 	    bool okTal=false;
-	    double tal=0;
+	    double tal=0.0;
 	    NumberStyles style = NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowThousands;
 	    CultureInfo provider = new CultureInfo("sv-SE");
 
@@ -146,6 +146,9 @@ namespace bordsräknare
 	    talStack.Push(summa);
 	}
 
+	//
+	// avsedd för xUnit-provning
+	//
 	public double Addition( double[] termer)
 	{
 	    double resultat=0;
