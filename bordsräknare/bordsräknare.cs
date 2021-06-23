@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -18,10 +18,9 @@ using System.Globalization;
 // Z = -*-           2
 // T = -*-           3
 //
-
 namespace bordsräknare
 {
-    class Program
+    public class Program
     {
 	static void Main(string[] args)
 	{
@@ -59,10 +58,10 @@ namespace bordsräknare
 		    case "r":
 			kvadratrot(talStack);
 			break;
-		    // case "L":
-		    // case "l":
-		    //	Pop(talStack);
-		    //	break;
+			// case "L":
+			// case "l":
+			//	Pop(talStack);
+			//	break;
 		    case "C":
 		    case "c":
 			Console.WriteLine( "Rensa stacken (cancel)");
@@ -106,7 +105,7 @@ namespace bordsräknare
 	static double läsEttTal(string message)
 	{
 	    bool okTal=false;
-	    double tal;
+	    double tal=0;
 	    NumberStyles style = NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowThousands;
 	    CultureInfo provider = new CultureInfo("fr-FR");
 
@@ -147,6 +146,13 @@ namespace bordsräknare
 	    talStack.Push(summa);
 	}
 
+	public double Addition( double[] termer)
+	{
+	    double resultat=0;
+	    resultat=termer[0]+termer[1];
+	    return resultat;
+	}
+
 	static void Subtraktion(Stack<double> talStack)
 	{
 	    double term1=0;
@@ -160,6 +166,14 @@ namespace bordsräknare
 	    double term2=läsEttTal( "subtraktion");
 	    double summa=term1-term2;
 	    talStack.Push(summa);
+	}
+
+	public double Subtraktion( double[] termer)
+	{
+	    // assert att array har minstl längden 2 ?
+	    double resultat=0;
+	    resultat=termer[0]-termer[1];
+	    return resultat;
 	}
 
 	static void Multiplikation(Stack<double> talStack)
@@ -230,6 +244,9 @@ namespace bordsräknare
 	    talStack.Push(rot);
 	}
 
+	public double sin(double vinkel) {
+	    return Math.Sin(vinkel);
+	}
 	static string Meny(Stack<double> talStack)
 	{
 	    string[,] alternativ = new string[10,3]
