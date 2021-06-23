@@ -18,10 +18,9 @@ using System.Globalization;
 // Z = -*-           2
 // T = -*-           3
 //
-
 namespace bordsräknare
 {
-    class Program
+    public class Program
     {
 	static void Main(string[] args)
 	{
@@ -82,7 +81,7 @@ namespace bordsräknare
 	static double läsEttTal()
 	{
 	    bool okTal=false;
-	    double tal=0;
+	    double tal=0.0;
 	    NumberStyles style = NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowThousands;
 	    CultureInfo provider = new CultureInfo("sv-SE");
 
@@ -106,7 +105,7 @@ namespace bordsräknare
 	static double läsEttTal(string message)
 	{
 	    bool okTal=false;
-	    double tal;
+	    double tal=0.0;
 	    NumberStyles style = NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowThousands;
 	    CultureInfo provider = new CultureInfo("fr-FR");
 
@@ -147,6 +146,16 @@ namespace bordsräknare
 	    talStack.Push(summa);
 	}
 
+	//
+	// avsedd för xUnit-provning
+	//
+	public double Addition( double[] termer)
+	{
+	    double resultat=0;
+	    resultat=termer[0]+termer[1];
+	    return resultat;
+	}
+
 	static void Subtraktion(Stack<double> talStack)
 	{
 	    double term1=0;
@@ -160,6 +169,17 @@ namespace bordsräknare
 	    double term2=läsEttTal( "subtraktion");
 	    double summa=term1-term2;
 	    talStack.Push(summa);
+	}
+
+	//
+	// avsedd för xUnit-provning
+	//
+	public double Subtraktion( double[] termer)
+	{
+	    // assert att array har minstl längden 2 ?
+	    double resultat=0;
+	    resultat=termer[0]-termer[1];
+	    return resultat;
 	}
 
 	static void Multiplikation(Stack<double> talStack)
