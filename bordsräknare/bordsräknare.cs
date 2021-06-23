@@ -105,7 +105,7 @@ namespace bordsräknare
 	static double läsEttTal(string message)
 	{
 	    bool okTal=false;
-	    double tal=0;
+	    double tal=0.0;
 	    NumberStyles style = NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowThousands;
 	    CultureInfo provider = new CultureInfo("fr-FR");
 
