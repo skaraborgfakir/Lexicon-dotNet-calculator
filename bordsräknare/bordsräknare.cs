@@ -171,6 +171,9 @@ namespace bordsräknare
 	    talStack.Push(summa);
 	}
 
+	//
+	// avsedd för xUnit-provning
+	//
 	public double Subtraktion( double[] termer)
 	{
 	    // assert att array har minstl längden 2 ?
