@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -58,10 +58,10 @@ namespace bordsräknare
 		    case "r":
 			kvadratrot(talStack);
 			break;
-		    // case "L":
-		    // case "l":
-		    //	Pop(talStack);
-		    //	break;
+			// case "L":
+			// case "l":
+			//	Pop(talStack);
+			//	break;
 		    case "C":
 		    case "c":
 			Console.WriteLine( "Rensa stacken (cancel)");
@@ -250,6 +250,9 @@ namespace bordsräknare
 	    talStack.Push(rot);
 	}
 
+	public double sin(double vinkel) {
+	    return Math.Sin(vinkel);
+	}
 	static string Meny(Stack<double> talStack)
 	{
 	    string[,] alternativ = new string[10,3]
