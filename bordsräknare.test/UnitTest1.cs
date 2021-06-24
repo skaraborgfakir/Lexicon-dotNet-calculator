@@ -47,7 +47,7 @@ namespace bordsräknare.test
 	[InlineData(  20,      (new double[]{ 20,1}))]
 	[InlineData(-21884850, (new double[]{ 234, 435, 43, 5, -1, 1}))]
 	[InlineData( 4320,     (new double[]{ -12, -3, 5, 24}))]
-	public void Multiplikation(double förväntat, double[] faktorer)
+	public void TestaMultiplikation(double förväntat, double[] faktorer)
 	{
 	    Program prog = new Program();
 	    double resultat=prog.Multiplikation(faktorer);

@@ -213,7 +213,7 @@ namespace bordsräknare
 	{
 	    double produkt=1.0;
 
-	    for (int i = 0; i < termer.Length, i++) {
+	    for (int i = 0; i < faktorer.Length; i++) {
 		produkt = produkt * faktorer[i];
 	    }
 
