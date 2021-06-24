@@ -181,9 +181,14 @@ namespace bordsräknare
 	public double Subtraktion( double[] termer)
 	{
 	    // assert att array har minstl längden 2 ?
-	    double resultat=0;
-	    resultat=termer[0]-termer[1];
-	    return resultat;
+	    double [] termer_teckenbytt = new double[termer.Length];
+
+	    for (int i = 0; i < termer_teckenbytt.Length; i++) {
+		termer_teckenbytt[i] = -1 * termer[i];
+	    }
+	    termer_teckenbytt[0] = termer[0];
+
+	    return Addition( termer_teckenbytt);
 	}
 
 	static void Multiplikation(Stack<double> talStack)
