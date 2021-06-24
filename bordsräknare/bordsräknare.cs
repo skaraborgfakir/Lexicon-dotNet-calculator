@@ -151,9 +151,13 @@ namespace bordsräknare
 	//
 	public double Addition( double[] termer)
 	{
-	    double resultat=0;
-	    resultat=termer[0]+termer[1];
-	    return resultat;
+	    double summa=0.0;
+
+	    for (int i=0; i<termer.Length; i++) {
+		summa=summa+termer[i];
+	    }
+
+	    return summa;
 	}
 
 	static void Subtraktion(Stack<double> talStack)
