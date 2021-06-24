@@ -209,7 +209,7 @@ namespace bordsräknare
 	//
 	// avsedd för xUnit-provning
 	//
-	static void Multiplikation( double[] faktorer)
+	public double Multiplikation( double[] faktorer)
 	{
 	    double produkt=1.0;
 
