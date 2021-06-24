@@ -206,6 +206,20 @@ namespace bordsräknare
 	    talStack.Push(produkt);
 	}
 
+	//
+	// avsedd för xUnit-provning
+	//
+	static void Multiplikation( double[] faktorer)
+	{
+	    double produkt=1.0;
+
+	    for (int i = 0; i < termer.Length, i++) {
+		produkt = produkt * faktorer[i];
+	    }
+
+	    return produkt;
+	}
+
 	static void Division(Stack<double> talStack)
 	{
 	    double täljare=0;
