@@ -273,9 +273,14 @@ namespace bordsräknare
 	    talStack.Push(rot);
 	}
 
-	public double sin(double vinkel) {
+	public double Sin(double vinkel) {
 	    return Math.Sin(vinkel);
 	}
+
+	public void Sin(Stack<double> talStack) {
+	    talStack.Push(Math.Sin(talStack.Pop()));
+	}
+
 	static string Meny(Stack<double> talStack)
 	{
 	    string[,] alternativ = new string[10,3]

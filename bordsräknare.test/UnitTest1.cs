@@ -1,6 +1,8 @@
 using System;
 using Xunit;
 using bordsräknare;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace bordsräknare.test
 {
@@ -56,15 +58,37 @@ namespace bordsräknare.test
 	}
     }
 
-    // public class Sinus
-    // {
-    //	[Theory]
-    //	[InlineData(Math.PI, 0)]
-    //	public void TestaSinus(double a, double förväntat)
-    //	{
-    //	    Program prog = new Program();
-    //	    double resultat=prog.sin(a);
-    //	    Assert.Equal(förväntat, resultat);
-    //	}
-    // }
+    public class Sinus
+    {
+	// förväntat kan nu skrivas som en beräknad formel, annars skulle det ha skrivits som ett decimaltal
+	// lättare att förstå vad testet prövar
+	[Theory]
+	[ClassData(typeof(SinusTestData))]
+	public void RunTest(string text, double a, double förväntat, bool inexaktJämförelse)
+	{
+	    Program prog = new Program();
+	    Stack<double> talStack = new Stack<double>();
+	    talStack.Push( a);                                     // matar beräkningsrutinen på samma vis som om huvudprogrammet används
+	    prog.Sin( talStack);
+	    // Console.WriteLine( "sin {0} {1} {2}", text, a, förväntat);
+
+	    // Vissa punkter på enhetscirkeln kommer igenom det här åtagandet utan avrundningsfel
+	    // men Pi punkten beräknas till 1,2246467991473532E−16 vilket är nära noll men ändå inte noll
+	    // Assert.Equal(förväntat, talStack.Peek());    // fungerar icke pga detta
+	    if (!inexaktJämförelse) {
+		Assert.Equal(förväntat, talStack.Peek());
+	    } else {
+		Assert.Equal(förväntat, talStack.Peek(), 14);
+	    }
+	}
+    }
+    public class SinusTestData : IEnumerable<object[]> {
+	public IEnumerator<object[]> GetEnumerator() {
+	    yield return new object[] {"Pi       ", Math.PI,              0,                true};
+	    yield return new object[] {"Pi/2.0   ", Math.PI/2.0,          1,                false};
+	    yield return new object[] {"Pi/4.0   ", Math.PI/4.0,          1/(Math.Sqrt(2)), false};
+	    yield return new object[] {"Pi+Pi/4.0", Math.PI+Math.PI/4.0, -1/(Math.Sqrt(2)), false};
+	}
+	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
 }
