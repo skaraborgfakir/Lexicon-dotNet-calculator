@@ -275,14 +275,7 @@ namespace bordsräknare
 	{
 	    double täljare=termer[0];
 	    double nämnare=termer[1];
-	    double kvot=0.0;
-		kvot=täljare/nämnare;
-
-	    // catch (InvalidOperationException)
-	    // {
-	    // }
-
-	    return( kvot);
+	    return täljare/nämnare;
 	}
 
 	static void kvadreratill2(Stack<double> talStack)

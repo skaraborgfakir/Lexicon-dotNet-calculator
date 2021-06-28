@@ -62,18 +62,30 @@ namespace bordsräknare.test
     {
 	[Theory]
 	[InlineData(                  1, (new double[]{   1,   1}))]
-	[InlineData(         Double.NaN, (new double[]{   1,   0}))]
 	[InlineData(                  1, (new double[]{   3,   3}))]
 	[InlineData(                 -1, (new double[]{   3,  -3}))]
 	[InlineData(                 20, (new double[]{  20,   1}))]
 	[InlineData( 0.5379310344827586, (new double[]{ 234, 435}))]
 	[InlineData(                  4, (new double[]{ -12,  -3}))]
-	public void RunTest(double förväntat, double[] faktorer)
+	public void RunTest1(double förväntat, double[] faktorer)
 	{
 	    Program prog = new Program();
 	    double resultat = prog.Division( faktorer);
 	    // Console.WriteLine( "mult {0} {1}", resultat.ToString(), förväntat.ToString());
 	    Assert.Equal( förväntat, resultat);
+	}
+
+	//
+	//
+	[Theory]
+	[InlineData( new double[]{    1, 0})]
+	[InlineData( new double[]{ 1E10, 0})]
+	public void RunTest2(double[] faktorer)
+	{
+	    Program prog = new Program();
+	    double resultat = prog.Division( faktorer);
+	    // Console.WriteLine( "div {0}", resultat.ToString());
+	    Assert.True(double.IsInfinity(resultat));
 	}
     }
 
@@ -87,16 +99,15 @@ namespace bordsräknare.test
 	{
 	    Program prog = new Program();
 	    Stack<double> talStack = new Stack<double>();
-	    talStack.Push( a);                                     // matar beräkningsrutinen på samma vis som om huvudprogrammet används
+	    talStack.Push( a);                            // matar beräkningsrutinen på samma vis som om huvudprogrammet används
 	    prog.Sin( talStack);
-	    // Console.WriteLine( "sin {0} {1} {2}", text, a, förväntat);
 
 	    // Vissa punkter på enhetscirkeln kommer igenom det här åtagandet utan avrundningsfel
 	    // men Pi punkten beräknas till 1,2246467991473532E−16 vilket är nära noll men ändå inte noll
 	    // Assert.Equal(förväntat, talStack.Peek());    // fungerar icke pga detta
 	    if (!inexaktJämförelse) {
 		Assert.Equal(förväntat, talStack.Peek());
-	    } else {
+	    } else {  // kontrollera till den 14e decimalen
 		Assert.Equal(förväntat, talStack.Peek(), 14);
 	    }
 	}
