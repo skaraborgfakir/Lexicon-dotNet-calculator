@@ -1,3 +1,3 @@
 Inlämningsuppgift i dotNet
 
-En enkel menybaserad bordsräknare
+Provning av bordsräknaren med xUnit-ramverket
