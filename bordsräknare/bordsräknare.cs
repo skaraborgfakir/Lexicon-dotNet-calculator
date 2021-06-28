@@ -22,6 +22,9 @@ namespace bordsräknare
 {
     public class Program
     {
+	//
+	// kontrollant i MVC
+	//
 	static void Main(string[] args)
 	{
 	    bool       notDone=true;
@@ -126,11 +129,17 @@ namespace bordsräknare
 	    return tal;
 	}
 
+	//
+	// modell i MVC
+	//
 	static void Push( Stack<double> talStack )
 	{
 	    talStack.Push(läsEttTal( "inmatning i stack"));
 	}
 
+	//
+	// modell i MVC
+	//
 	static void Addition( Stack<double> talStack)
 	{
 	    double term1=0;
@@ -147,6 +156,8 @@ namespace bordsräknare
 	}
 
 	//
+	// modell i MVC
+	//
 	// avsedd för xUnit-provning
 	//
 	public double Addition( double[] termer)
@@ -160,6 +171,9 @@ namespace bordsräknare
 	    return summa;
 	}
 
+	//
+	// modell i MVC - broken, läsEttTal ska inte vara med här !
+	//
 	static void Subtraktion(Stack<double> talStack)
 	{
 	    double term1=0;
@@ -176,6 +190,8 @@ namespace bordsräknare
 	}
 
 	//
+	// modell i MVC
+	//
 	// avsedd för xUnit-provning
 	//
 	public double Subtraktion( double[] termer)
@@ -191,6 +207,9 @@ namespace bordsräknare
 	    return Addition( termer_teckenbytt);
 	}
 
+	//
+	// modell i MVC - broken läsEttTal ska inte vara med här !
+	//
 	static void Multiplikation(Stack<double> talStack)
 	{
 	    double faktor1=0;
@@ -207,6 +226,8 @@ namespace bordsräknare
 	}
 
 	//
+	// modell i MVC
+	//
 	// avsedd för xUnit-provning
 	//
 	public double Multiplikation( double[] faktorer)
@@ -220,6 +241,9 @@ namespace bordsräknare
 	    return produkt;
 	}
 
+	//
+	// modell i MVC - broken läsEttTal ska inte vara med här !
+	//
 	static void Division(Stack<double> talStack)
 	{
 	    double täljare=0;
@@ -242,6 +266,23 @@ namespace bordsräknare
 
 	    double kvot=täljare/nämnare;
 	    talStack.Push(kvot);
+	}
+
+	//
+	// modell i MVC
+	//
+	public double Division(double[] termer)
+	{
+	    double täljare=termer[0];
+	    double nämnare=termer[1];
+	    double kvot=0.0;
+		kvot=täljare/nämnare;
+
+	    // catch (InvalidOperationException)
+	    // {
+	    // }
+
+	    return( kvot);
 	}
 
 	static void kvadreratill2(Stack<double> talStack)
@@ -273,12 +314,18 @@ namespace bordsräknare
 	    talStack.Push(rot);
 	}
 
+	//
+	// modell i MVC
+	//
 	public double Sin(double vinkel) {
 	    return Math.Sin(vinkel);
 	}
 
-	public void Sin(Stack<double> talStack) {
-	    talStack.Push(Math.Sin(talStack.Pop()));
+	//
+	// modell i MVC
+	//
+	public void Sin(Stack <double> talStack) {
+	    talStack.Push( Math.Sin( talStack.Pop()));
 	}
 
 	static string Meny(Stack<double> talStack)

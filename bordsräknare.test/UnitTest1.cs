@@ -61,12 +61,13 @@ namespace bordsräknare.test
     public class Division
     {
 	[Theory]
-	[InlineData(        1, (new double[]{ 1, 1}))]
-	[InlineData(        1, (new double[]{ 1, 2}))]
-	[InlineData(       -3, (new double[]{ 3, -3}))]
-	[InlineData(       20, (new double[]{ 20,1}))]
-	[InlineData(-21884850, (new double[]{ 234, 435}))]
-	[InlineData(     4320, (new double[]{ -12, -3}))]
+	[InlineData(                  1, (new double[]{   1,   1}))]
+	[InlineData(         Double.NaN, (new double[]{   1,   0}))]
+	[InlineData(                  1, (new double[]{   3,   3}))]
+	[InlineData(                 -1, (new double[]{   3,  -3}))]
+	[InlineData(                 20, (new double[]{  20,   1}))]
+	[InlineData( 0.5379310344827586, (new double[]{ 234, 435}))]
+	[InlineData(                  4, (new double[]{ -12,  -3}))]
 	public void RunTest(double förväntat, double[] faktorer)
 	{
 	    Program prog = new Program();
