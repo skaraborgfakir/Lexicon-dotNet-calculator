@@ -17,8 +17,8 @@ namespace bordsräknare.test
 	public void RunTest( double förväntat, double[]termer)
 	{
 	    Program prog = new Program();
-	    double summa=prog.Addition( termer);
-	    Console.WriteLine( "{0} {1}", summa.ToString(), förväntat.ToString());
+	    double summa = prog.Addition( termer);
+	    // Console.WriteLine( "add {0} {1}", summa.ToString(), förväntat.ToString());
 	    Assert.Equal( förväntat, summa);
 	}
     }
@@ -34,8 +34,8 @@ namespace bordsräknare.test
 	public void RunTest(double förväntat, double[] termer)
 	{
 	    Program prog = new Program();
-	    double resultat=prog.Subtraktion(termer);
-	    Console.WriteLine( "{0} {1}", resultat.ToString(), förväntat.ToString());
+	    double resultat = prog.Subtraktion( termer);
+	    // Console.WriteLine( "sub {0} {1}", resultat.ToString(), förväntat.ToString());
 	    Assert.Equal( förväntat, resultat);
 	}
     }
@@ -49,11 +49,14 @@ namespace bordsräknare.test
 	[InlineData(  20,      (new double[]{ 20,1}))]
 	[InlineData(-21884850, (new double[]{ 234, 435, 43, 5, -1, 1}))]
 	[InlineData( 4320,     (new double[]{ -12, -3, 5, 24}))]
-	public void TestaMultiplikation(double förväntat, double[] faktorer)
+	public void RunTest(double förväntat, double[] faktorer)
 	{
 	    Program prog = new Program();
-	    double resultat=prog.Multiplikation(faktorer);
-	    Console.WriteLine( "{0} {1}", resultat.ToString(), förväntat.ToString());
+	    double resultat = prog.Multiplikation( faktorer);
+	    // Console.WriteLine( "mult {0} {1}", resultat.ToString(), förväntat.ToString());
+	    Assert.Equal( förväntat, resultat);
+	}
+    }
 
     public class Division
     {
