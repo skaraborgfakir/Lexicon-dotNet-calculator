@@ -162,13 +162,17 @@ namespace bordsräknare
 	//
 	public double Addition( double[] termer)
 	{
-	    double summa=0.0;
+	    // assert att array har minst längden 1
+	    if (termer.Length > 0) {
+		double summa=0.0;
 
-	    for (int i=0; i<termer.Length; i++) {
-		summa=summa+termer[i];
+		for (int i=0; i<termer.Length; i++) {
+		    summa=summa+termer[i];
+		}
+		return summa;
+	    } else {
+		throw new System.ArgumentException("Inga vektorer med längd 0");
 	    }
-
-	    return summa;
 	}
 
 	//
@@ -196,10 +200,23 @@ namespace bordsräknare
 	//
 	public double Subtraktion( double[] termer)
 	{
-	    // assert att array har minstl längden 2 ?
-	    double resultat=0;
-	    resultat=termer[0]-termer[1];
-	    return resultat;
+	    // assert att array har minst längden 1 ?
+	    if (termer.Length > 0) {
+		double[] termer_teckenbytt = new double[termer.Length];
+		//
+		// subtraktion kan ses som en specialisering av addition
+		// multiplicera alla termer förutom den första
+		//   exv:
+		//     19-4-5 <=> 19 + (-4) + (-5)
+		//
+		termer_teckenbytt[0] = termer[0];
+		for (int i = 1; i < termer_teckenbytt.Length; i++) {
+		    termer_teckenbytt[i] = -1 * termer[i];
+		}
+		return Addition( termer_teckenbytt);
+	    } else {
+		throw new System.ArgumentException("Inga vektorer med längd 0");
+	    }
 	}
 
 	//
@@ -228,12 +245,14 @@ namespace bordsräknare
 	public double Multiplikation( double[] faktorer)
 	{
 	    double produkt=1.0;
-
-	    for (int i = 0; i < faktorer.Length; i++) {
-		produkt = produkt * faktorer[i];
+	    if (faktorer.Length > 1) {
+		for (int i = 0; i < faktorer.Length; i++) {
+		    produkt = produkt * faktorer[i];
+		}
+		return produkt;
+	    } else {
+		throw new System.ArgumentException("Inga vektorer med längd 0");
 	    }
-
-	    return produkt;
 	}
 
 	//
@@ -270,7 +289,12 @@ namespace bordsräknare
 	{
 	    double täljare=termer[0];
 	    double nämnare=termer[1];
-	    return täljare/nämnare;
+
+	    if (nämnare !=0.0) {
+		return täljare/nämnare;
+	    } else {
+		throw new System.DivideByZeroException();
+	    }
 	}
 
 	static void kvadreratill2(Stack<double> talStack)
