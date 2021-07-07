@@ -133,6 +133,18 @@ namespace bordsräknare.test
 
     public class Division
     {
+	[Theory]
+	[InlineData( (new double[]{}))]
+	[InlineData( (new double[]{2}))]
+	public void TestTermerLenght(double[] termer)
+	{
+	    // Arrange
+	    Program prog = new Program();
+
+	    // Act & Assert i samma konstruktion
+	    Assert.Throws<System.ArgumentException>(() => prog.Division(termer));
+	}
+
 	//
 	// division med noll -> kontroll att det blir en DivideByZeroException
 	//
