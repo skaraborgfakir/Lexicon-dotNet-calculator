@@ -287,13 +287,17 @@ namespace bordsräknare
 	//
 	public double Division(double[] termer)
 	{
-	    double täljare=termer[0];
-	    double nämnare=termer[1];
+	    if (termer.Length == 2) {
+		double täljare=termer[0];
+		double nämnare=termer[1];
 
-	    if (nämnare !=0.0) {
-		return täljare/nämnare;
+		if (nämnare !=0.0) {
+		    return täljare/nämnare;
+		} else {
+		    throw new System.DivideByZeroException();
+		}
 	    } else {
-		throw new System.DivideByZeroException();
+		throw new System.ArgumentException("Inga vektorer som inte har längden 2");
 	    }
 	}
 
