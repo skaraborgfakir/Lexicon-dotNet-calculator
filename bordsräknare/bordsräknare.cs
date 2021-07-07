@@ -207,7 +207,9 @@ namespace bordsräknare
 		// subtraktion kan ses som en specialisering av addition
 		// multiplicera alla termer förutom den första
 		//   exv:
-		//     19-4-5 <=> 19 + (-4) + (-5)
+		//     19-4-5 <=>  19+(-4)+(-5)
+		// eller:
+		//   -51-10-2 <=> -51+(-10)+(-2)
 		//
 		termer_teckenbytt[0] = termer[0];
 		for (int i = 1; i < termer_teckenbytt.Length; i++) {
