@@ -136,6 +136,7 @@ namespace bordsräknare.test
 	[Theory]
 	[InlineData( (new double[]{}))]
 	[InlineData( (new double[]{2}))]
+	[InlineData( (new double[]{2, 4, 5}))]
 	public void TestTermerLenght(double[] termer)
 	{
 	    // Arrange
